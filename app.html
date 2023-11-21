@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Win Predictor</title>
+    <style>
+        body {
+            background-color: #f6f6ee;
+            color: rgb(216, 127, 127);
+            font-family: Arial, sans-serif;
+            background-image: url('ipl-homepage-2.jpg'); /* Replace with the actual path to your image */
+            background-size: 50%; /* This ensures the background image covers the entire body */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Do not repeat the background image */
+        }
+        
+        #container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #d1d1e5;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px;
+            background-color: #b7e8b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <h1>IPL Win Predictor</h1>
+
+    <label for="battingTeam">BATTING TEAM:</label>
+    <select id="battingTeam" name="battingTeam">
+        <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+        <option value="Mumbai Indians">Mumbai Indians</option>
+        <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
+        <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+        <option value="Kings XI Punjab">Kings XI Punjab</option>
+        <option value="Chennai Super Kings">Chennai Super Kings</option>
+        <option value="Rajasthan Royals">Rajasthan Royals</option>
+        <option value="Delhi Capitals">Delhi Capitals</option>
+        <br>
+    </select>
+
+    <label for="bowlingTeam">BOWLING TEAM:</label>
+    <select id="bowlingTeam" name="bowlingTeam">
+        <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+        <option value="Mumbai Indians">Mumbai Indians</option>
+        <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
+        <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+        <option value="Kings XI Punjab">Kings XI Punjab</option>
+        <option value="Chennai Super Kings">Chennai Super Kings</option>
+        <option value="Rajasthan Royals">Rajasthan Royals</option>
+        <option value="Delhi Capitals">Delhi Capitals</option>
+   
+    </select>
+    <br>
+
+    <label for="venue">VENUE:</label>
+    <select id="venue" name="venue">
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Indore">Indore</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Chandigarh">Chandigarh</option>
+        <option value="Jaipur">Jaipur</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Cape Town">Cape Town</option>
+        <option value="Port Elizabeth">Port Elizabeth</option>
+        <option value="Durban">Durban</option>
+        <option value="Centurion">Centurion</option>
+        <option value="East London">East London</option>
+        <option value="Johannesburg">Johannesburg</option>
+        <option value="Kimberley">Kimberley</option>
+        <option value="Bloemfontein">Bloemfontein</option>
+        <option value="Ahmedabad">Ahmedabad</option>
+        <option value="Cuttack">Cuttack</option>
+        <option value="Nagpur">Nagpur</option>
+        <option value="Dharamsala">Dharamsala</option>
+        <option value="Visakhapatnam">Visakhapatnam</option>
+        <option value="Pune">Pune</option>
+        <option value="Raipur">Raipur</option>
+        <option value="Ranchi">Ranchi</option>
+        <option value="Abu Dhabi">Abu Dhabi</option>
+        <option value="Sharjah">Sharjah</option>
+        <option value="Mohali">Mohali</option>
+        <option value="Bengaluru">Bengaluru</option>
+       
+    </select>
+    <br>
+
+    <label for="target">Target:</label>
+    <input type="number" id="target" step="1">
+
+    <label for="score">Score:</label>
+    <input type="number" id="score" step="1">
+
+    <label for="overs">Overs Completed:</label>
+    <input type="number" id="overs" step="1">
+
+    <label for="wickets">Wickets Fallen:</label>
+    <input type="number" id="wickets" step="1">
+
+    <button onclick="predictOutcome()">Predict Outcome</button>
+
+
+    <h2 id="output"></h2>
+</div>
+
+<script>
+    function predictOutcome() {
+        // Get values from input fields
+        var battingTeam = document.getElementById('battingTeam').value;
+        var bowlingTeam = document.getElementById('bowlingTeam').value;
+        var venue = document.getElementById('venue').value;
+        var target = parseInt(document.getElementById('target').value);
+        var score = parseInt(document.getElementById('score').value);
+        var overs = parseInt(document.getElementById('overs').value);
+        var wickets = parseInt(document.getElementById('wickets').value);
+
+        // Predictions and output display
+        if (score > target) {
+            alert(battingTeam + " won the match");
+        } else if (score === target - 1 && overs === 20) {
+            alert("Match Drawn");
+        } else if (wickets === 10 && score < target - 1) {
+            alert(bowlingTeam + " won the match");
+        } else if (battingTeam === bowlingTeam) {
+            alert("To proceed, please select different teams as no match can be played between the same teams");
+        } else {
+            if (0 <= target && target <= 300 && 0 <= overs && overs <= 20 && 0 <= wickets && wickets <= 10 && 0 <= score) {
+                try {
+                    var runsLeft = target - score;
+                    var ballsLeft = 120 - (overs * 6);
+                    var wicketsLeft = 10 - wickets;
+                    var currentRunRate = score / overs;
+                    var requiredRunRate = (runsLeft * 6) / ballsLeft;
+
+                    // Replace these lines with your actual prediction logic
+                    var winProbability = 0.7;  // Replace with the actual win probability
+                    var lossProbability = 0.3;  // Replace with the actual loss probability
+
+                    // Display predictions using alert (for simplicity)
+                    alert(battingTeam + " - " + Math.round(winProbability * 100) + "%");
+                    alert(bowlingTeam + " - " + Math.round(lossProbability * 100) + "%");
+
+                } catch (error) {
+                    alert("Please fill in all the required details");
+                }
+            } else {
+                alert("There is something wrong with the input, please fill in the correct details as of IPL T-20 format");
+            }
+        }
+    }
+</script>
+
+
+
+</body>
+</html>
