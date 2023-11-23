@@ -13,11 +13,22 @@ cities = ['Hyderabad', 'Bangalore', 'Mumbai', 'Indore', 'Kolkata', 'Delhi', 'Cha
 # Load the pre-trained model
 pipe = pickle.load(open('pipe.pkl', 'rb'))
 
-
-
-
 # Streamlit app title
 st.title('IPL Win Predictor')
+
+# Add a background image to the entire app
+st.markdown(
+    """
+    <style>
+        body {
+            background-image: url('ipl-homepage-2.png');
+            background-size: cover;
+            color: white;  /* Set text color to white */
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # User inputs for team, venue, target, score, overs, and wickets
 col1, col2 = st.columns(2)
@@ -69,7 +80,7 @@ else:
                     'city': [city],
                     'runs_left': [runs_left],
                     'balls_left': [balls_left],
-                    'wickets_left': [wickets_left],  # Include 'wickets_left' in the input DataFrame
+                    'wickets_left': [wickets_left],
                     'total_runs_x': [target],
                     'cur_run_rate': [currentrunrate],
                     'req_run_rate': [requiredrunrate]
