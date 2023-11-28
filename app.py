@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import pickle
-from scikit-learn.compose import ColumnTransformer
-from scikit-learn.preprocessing import OneHotEncoder
 
 # Declaring the teams
 
