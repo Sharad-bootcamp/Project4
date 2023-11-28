@@ -1,4 +1,2 @@
-streamlit
-sklearn
-pandas
+scikit-learn
 pkg-config
